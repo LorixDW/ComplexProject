@@ -1,0 +1,46 @@
+<div class="window">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Регистрация</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <form class="form" [formGroup] = "regForm" (ngSubmit)="SubmitClick()">
+        <mat-form-field>
+          <mat-label>Имя</mat-label>
+          <input matInput placeholder="Иванов" formControlName="lName"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Фамилия</mat-label>
+          <input matInput placeholder="Иван" formControlName="fName"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Отчество</mat-label>
+          <input matInput placeholder="Иванович" formControlName="patronymic"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="example@ya.ru" formControlName="email"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Пароль</mat-label>
+          <input matInput placeholder="" [type]="HidePass1 ? 'password' : 'text'" formControlName="pass1"/>
+          <mat-icon matSuffix (click)="HidePass1 = !HidePass1" >{{HidePass1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Телефон</mat-label>
+          <input matInput placeholder="89123456789" formControlName="phone"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Повторите пароль</mat-label>
+          <input matInput placeholder="" [type]="HidePass2 ? 'password' : 'text'" formControlName="pass2"/>
+          <mat-icon matSuffix (click)="HidePass2 = !HidePass2">{{HidePass2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <button color="primary" mat-raised-button style="height: 55px; width: 250px" [disabled]="regForm.invalid" >
+          Отправить
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+</div>

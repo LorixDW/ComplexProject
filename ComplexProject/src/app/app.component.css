@@ -1,0 +1,16 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+.unauthorized {
+  margin-left: 10px;
+}
+.central {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+.window{
+  width: 80%
+}
+

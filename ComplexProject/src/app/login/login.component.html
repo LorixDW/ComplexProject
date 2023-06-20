@@ -1,0 +1,39 @@
+<div class="window">
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>Вход в систему</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
+    <form class="login" [formGroup] = loginForm (ngSubmit)="SubmiLogin()" *ngIf="!isLogined">
+      <mat-form-field>
+        <mat-label>e-mail</mat-label>
+        <input matInput placeholder="example@mail.ru" formControlName="email" name="email" [readonly]="isLoading" >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label >Пароль</mat-label>
+        <input matInput formControlName="password" name="password" [type]="hidePass ? 'password' : 'text'" [readonly]="isLoading"/>
+        <mat-icon matSuffix (click)="hidePass = !hidePass">
+          {{hidePass ? 'visibility_off' : 'visibility'}}
+        </mat-icon>
+      </mat-form-field>
+      <button mat-raised-button [disabled]="loginForm.invalid || isLoading" type="'submit'">Далее</button>
+    </form>
+    <div *ngIf="isLogined">
+      <form class="login" [formGroup] = codeSend  (ngSubmit)="SubmitCode()">
+        <p>
+          Введите код отправленный на почту
+        </p>
+        <mat-form-field>
+          <mat-label>Код</mat-label>
+          <input matInput formControlName="code" name="code">
+        </mat-form-field>
+        <div style="display: flex">
+          <button color="primary" mat-raised-button (click)="BackClick()">Назад</button>
+          <button color="primary" mat-raised-button [disabled]="codeSend.invalid">Войти</button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+</div>

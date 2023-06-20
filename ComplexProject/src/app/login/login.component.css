@@ -1,0 +1,22 @@
+.card{
+  width: 600px;
+}
+.login mat-form-field, button, p, div {
+  display: inline;
+}
+.login button {
+  margin-right: 10px;
+}
+.resendBtn{
+  margin-top: 10px;
+}
+.window{
+  display: flex;
+  justify-content: center;
+}
+.spinner{
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  z-index: 1;
+}

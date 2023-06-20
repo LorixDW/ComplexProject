@@ -1,0 +1,32 @@
+<h1>Личный кабинет</h1>
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Личная информация" >
+    <mat-list>
+    <mat-list-item>ФИО: {{user.lName}} {{user.fName}} {{user.patronymic}}</mat-list-item>
+    <mat-list-item>Email адресс: {{user.email}}</mat-list-item>
+    <mat-list-item>Номер телефона: {{user.phone}}</mat-list-item>
+    </mat-list>
+    <div>
+      <button style="margin-left: 10px" mat-raised-button color="primary" (click)="EditClick()">
+        Редактировать Информацию
+      </button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Ваши События">
+    <mat-form-field class="search">
+      <input matInput >
+      <button color="primary" matSuffix mat-raised-button>Поиск<mat-icon>search</mat-icon></button>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" >
+        Фильтры
+      </button>
+      <button mat-raised-button color="primary" style="margin-left: 10px">
+        Сортировка
+      </button>
+      <button mat-raised-button color="primary" style="margin-left: 10px">
+        Новое событие
+      </button>
+    </div>
+  </mat-tab>
+</mat-tab-group>

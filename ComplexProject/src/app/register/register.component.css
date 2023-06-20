@@ -1,0 +1,13 @@
+.form{
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 10px;
+}
+.window{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+

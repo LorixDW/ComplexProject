@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Редактировать информацию</h1>
+<div mat-dialog-content>
+  <form [formGroup]="EditForm" (ngSubmit)="onConfirmClick()">
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+      <input matInput placeholder="Фамилия"formControlName="lName">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+      <input matInput placeholder="Имя" formControlName="fName">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Фамилия</mat-label>
+      <input matInput placeholder="Отчество" formControlName="patronymic">
+    </mat-form-field>
+    <div *ngIf="data.user.role == 'admin'">
+      <p>После изменения фдреса электронной почты требуется перезаход</p>
+      <mat-form-field>
+        <mat-label>Фамилия</mat-label>
+        <input matInput placeholder="email" formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Фамилия</mat-label>
+        <input matInput placeholder="телефон" formControlName="phone">
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button mat-button [disabled]="EditForm.invalid" type="'submit'">Подтвердить</button>
+      <button mat-raised-button mat-button (click)="onClose()">Отмена</button>
+    </div>
+  </form>
+</div>
+
