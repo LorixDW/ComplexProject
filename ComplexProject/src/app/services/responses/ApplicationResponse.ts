@@ -8,8 +8,6 @@ export class ApplicationResponse {
   user: UserResponse
   message: String
   type: ApplicationType
-  constructor() {
-  }
 
   constructor(id: number, eventId: number, title: String, user: UserResponse, message: String, type: ApplicationType) {
     this.id = id;

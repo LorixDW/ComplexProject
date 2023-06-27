@@ -1,3 +1,5 @@
 export enum Privacy{
-  OPEN, HALF_OPEN, PRIVATE
+  OPEN = "OPEN",
+  HALF_OPEN = "HALF_OPEN",
+  PRIVATE = "PRIVATE"
 }

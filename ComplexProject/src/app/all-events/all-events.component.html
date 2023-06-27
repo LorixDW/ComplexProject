@@ -1,0 +1,37 @@
+<h1>Поиск событий</h1>
+<form [formGroup]="search" (ngSubmit)="eventSearch()">
+  <mat-form-field class="search" >
+    <input matInput formControlName="searchField">
+    <button color="primary" type="'submit'" matSuffix mat-raised-button>Поиск<mat-icon>search</mat-icon></button>
+  </mat-form-field>
+</form>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Фильтры</mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-chip-listbox multiple>
+      <mat-chip-option (click)="firstChipClick()">Открытые</mat-chip-option>
+      <mat-chip-option (click)="secondChipClick()">Полуоткрытые</mat-chip-option>
+    </mat-chip-listbox>
+  </mat-expansion-panel>
+</mat-accordion>
+<div>
+  <mat-card *ngFor="let item of event" style="margin:2em;">
+    <mat-card-header>
+      <mat-card-title>
+        {{item.title}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider><br>
+      <p>{{item.summary}}</p>
+      <p>{{item.start.date}} - {{item.end.date}}</p>
+      <p *ngIf="!item.isSelf">Создатель: {{item.creator.lName}} {{item.creator.fName}} {{item.creator.patronymic}}</p>
+      <p *ngIf="item.isSelf">Создатель: Вы</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="openEvent(item.id)">Открыть</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -25,12 +25,36 @@ import {MatListModule} from "@angular/material/list";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
+import {CommonModule, NgFor, NgForOf} from "@angular/common";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatChipsModule} from "@angular/material/chips";
+import { AllEventsComponent } from './all-events/all-events.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { EventComponent } from './event/event.component';
+import { AddEventComponent } from './add-event/add-event.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {
+  NGX_MAT_DATE_FORMATS,
+  NgxMatDateFormats,
+  NgxMatDatetimePicker,
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule
+} from "@angular-material-components/datetime-picker";
+import { EditEventComponent } from './edit-event/edit-event.component';
+import { AddNotificationComponent } from './add-notification/add-notification.component';
+import { EditNotificationComponent } from './edit-notification/edit-notification.component';
+import { AddParticipantComponent } from './add-participant/add-participant.component';
+import { AcceptDialogComponent } from './accept-dialog/accept-dialog.component';
 
 const appRouts: Routes = [
   {path: "", component: HomeComponent},
   {path: "login", component: LoginComponent},
   {path: "registration", component: RegisterComponent},
   {path: "account", component: AccountComponent},
+  {path: "events/all", component: AllEventsComponent},
+  {path: "event/:id", component: EventComponent},
   {path: "**", component: NotFoundComponent}
 
 ]
@@ -44,9 +68,20 @@ const appRouts: Routes = [
     RegisterComponent,
     AlertDialogComponent,
     AccountComponent,
-    EditUserDialogComponent
+    EditUserDialogComponent,
+    AllEventsComponent,
+    EventComponent,
+    AddEventComponent,
+    EditEventComponent,
+    AddNotificationComponent,
+    EditNotificationComponent,
+    AddParticipantComponent,
+    AcceptDialogComponent
   ],
   imports: [
+    NgFor,
+    NgForOf,
+    CommonModule,
     BrowserModule,
     HttpClientModule,
     MatToolbarModule,
@@ -64,7 +99,15 @@ const appRouts: Routes = [
     MatMenuModule,
     MatListModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

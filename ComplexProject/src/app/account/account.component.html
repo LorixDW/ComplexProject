@@ -13,20 +13,121 @@
     </div>
   </mat-tab>
   <mat-tab label="Ваши События">
-    <mat-form-field class="search">
-      <input matInput >
-      <button color="primary" matSuffix mat-raised-button>Поиск<mat-icon>search</mat-icon></button>
-    </mat-form-field>
+    <form [formGroup]="search" (ngSubmit)="eventSearch()">
+      <mat-form-field class="search" >
+        <input matInput formControlName="searchField">
+        <button color="primary" type="'submit'" matSuffix mat-raised-button>Поиск<mat-icon>search</mat-icon></button>
+      </mat-form-field>
+    </form>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Фильтры</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Приватность</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-chip-listbox multiple>
+            <mat-chip-option (click)="firstChipClick()">Открытые</mat-chip-option>
+            <mat-chip-option (click)="secondChipClick()">Полуоткрытые</mat-chip-option>
+            <mat-chip-option (click)="thirdChipClick()">Закрытые</mat-chip-option>
+          </mat-chip-listbox>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Удалённые/неудалённые</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-button-toggle-group>
+            <mat-button-toggle (click)="deletedTogle(null)">Все события</mat-button-toggle>
+            <mat-button-toggle (click)="deletedTogle(false)">Только неудалённые</mat-button-toggle>
+            <mat-button-toggle (click)="deletedTogle(true)">Только удалённые</mat-button-toggle>
+          </mat-button-toggle-group>
+        </mat-expansion-panel>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+    <button mat-raised-button color="primary" (click)="addEvent()">Добавить событие</button>
     <div>
-      <button mat-raised-button color="primary" >
-        Фильтры
-      </button>
-      <button mat-raised-button color="primary" style="margin-left: 10px">
-        Сортировка
-      </button>
-      <button mat-raised-button color="primary" style="margin-left: 10px">
-        Новое событие
-      </button>
+      <mat-card *ngFor="let item of event" style="margin:2em;">
+        <mat-card-header>
+          <mat-card-title>
+            {{item.title}}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-divider></mat-divider><br>
+          <p>{{item.summary}}</p>
+          <p>{{item.start.date}} - {{item.end.date}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button (click)="openEvent(item.id)">Открыть</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Уведомления">
+    <br>
+    <mat-button-toggle-group>
+      <mat-button-toggle (click)="notificationsReload(null)" >Все уведомления</mat-button-toggle>
+      <mat-button-toggle (click)="notificationsReload('today')">На сегодня</mat-button-toggle>
+      <mat-button-toggle (click)="notificationsReload('tomorrow')">На завтра</mat-button-toggle>
+      <mat-button-toggle (click)="notificationsReload('actual')">Актуальные</mat-button-toggle>
+    </mat-button-toggle-group>
+    <mat-card *ngFor="let item of notifications" style="margin:2em;">
+      <mat-card-header>
+        <mat-card-title>{{item.title}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-divider></mat-divider><br>
+        <p>Описание: {{item.description}}</p>
+        <p>Дата отправки: {{item.sent.day}}.{{item.sent.month}}.{{item.sent.year}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="editNotification(item.id, item.description)">Изменить</button>
+        <button mat-raised-button (click)="openEvent(item.eventId)">Перейти</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Заявки и приглошения">
+    <br>
+    <mat-button-toggle-group>
+      <mat-button-toggle color="primary" (click)="applicationToggleF(true)">Приглашения</mat-button-toggle>
+      <mat-button-toggle color="primary" (click)="applicationToggleF(false)">Заявки</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div *ngIf="applicationToggle">
+      <p style="margin:2em;" *ngIf="invitations.length == 0">Похоже у вас пока нет приглошений :(</p>
+      <div *ngIf="invitations.length != 0">
+        <mat-card *ngFor="let item of invitations">
+          <mat-card-header>
+            <mat-card-title>{{item.title}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Отправитель: {{item.user.lName}} {{item.user.fName}} {{item.user.patronymic}}</p>
+            <p>Сообщение: {{item.message}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="acceptApplication(item.id)">Принять</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    <div *ngIf="!applicationToggle">
+      <p style="margin:2em;" *ngIf="applications.length == 0">Похоже вам пока не поступали заявки на вступление</p>
+      <div *ngIf="applications.length != 0">
+        <mat-card *ngFor="let item of applications" style="margin:2em 0em;">
+          <mat-card-header>
+            <mat-card-title>{{item.title}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Отправитель: {{item.user.lName}} {{item.user.fName}} {{item.user.patronymic}}</p>
+            <p>Сообщение: {{item.message}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="acceptApplication(item.id)">Принять</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
   </mat-tab>
 </mat-tab-group>

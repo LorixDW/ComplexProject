@@ -1,0 +1,53 @@
+<div *ngIf="data.event.isSelf">
+  <h1 mat-dialog-title>Отправка приглашения</h1>
+  <div mat-dialog-content>
+<!--    <form [formGroup]="searchForm" (ngSubmit)="usersUpdate()">-->
+<!--      <mat-form-field>-->
+<!--        <input matInput formControlName="text">-->
+<!--        <button color="primary" type="submit" matSuffix mat-raised-button>Поиск<mat-icon>search</mat-icon></button>-->
+<!--      </mat-form-field>-->
+<!--    </form>-->
+    <mat-card *ngFor="let item of users">
+      <mat-card-header>
+        <mat-card-title>{{item.lName}} {{item.fName}} {{item.patronymic}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            Приглашение
+          </mat-expansion-panel-header>
+          <form [formGroup]="addForm" class="dialog_1" (ngSubmit)="submit(item.email)"
+          *ngIf="!(invitedUsers.includes(item.email) || applicatedUsers.includes(item.email))">
+            <mat-form-field>
+              <mat-label>Сообщение</mat-label>
+              <input matInput formControlName="text">
+            </mat-form-field>
+            <mat-card-actions>
+              <button mat-raised-button type="submit" [disabled]="!addForm.valid">Отправить</button>
+            </mat-card-actions>
+          </form>
+          <p *ngIf="invitedUsers.includes(item.email)">Уже отправленено</p>
+          <p *ngIf="applicatedUsers.includes(item.email)">Пользователь сам подал заявку</p>
+        </mat-expansion-panel>
+      </mat-card-content>
+    </mat-card>
+    <div mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Закрыть</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="!data.event.isSelf">
+  <h1 mat-dialog-title *ngIf="data.event.privacy == 'HALF_OPEN'">Заявка на вступление</h1>
+  <h1 mat-dialog-title *ngIf="data.event.privacy == 'OPEN'">Вступление в событие</h1>
+  <form [formGroup]="addForm" (ngSubmit)="submit(null)" class="dialog_1" mat-dialog-content>
+    <mat-form-field>
+      <mat-label *ngIf="data.event.privacy == 'OPEN'">Роль в событии</mat-label>
+      <mat-label *ngIf="data.event.privacy == 'HALF_OPEN'">Сообщение</mat-label>
+      <input matInput formControlName="text">
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button [disabled]="!addForm.valid" type="submit">Отправить</button>
+      <button mat-raised-button mat-dialog-close>Отмена</button>
+    </div>
+  </form>
+</div>

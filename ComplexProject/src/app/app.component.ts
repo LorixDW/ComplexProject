@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {NavigationStart, Router} from "@angular/router";
+import {UserService} from "./services/user.service";
+import {UserResponse} from "./services/responses/UserResponse";
 
 @Component({
   selector: 'app-root',
@@ -8,8 +10,6 @@ import {NavigationStart, Router} from "@angular/router";
 })
 export class AppComponent {
   isLogined: boolean = false;
-  lName: string = "Kargapoltsev"
-  fName: String = "Stanislav"
   loginClick(){
     this.router.navigate(['/login'])
   }
@@ -19,20 +19,19 @@ export class AppComponent {
   accountClick(){
     this.router.navigate(['/account'])
   }
-  selfEventsClick(){}
+  selfEventsClick(){
+    this.router.navigate(['/events/all'])
+  }
   exitClick(){
     localStorage.clear()
     this.router.navigate(["/login"])
   }
-  constructor(private router: Router) {
+  constructor(private router: Router, private userServies: UserService) {
+    let jwt: string | null = localStorage.getItem('jwt')
     router.events.subscribe(event => {
       if(event instanceof NavigationStart){
-        if(localStorage.getItem('jwt') != null){
-          this.isLogined = true
-        }
-        else {
-          this.isLogined = false
-        }
+        let jwt: string | null = localStorage.getItem('jwt')
+        this.isLogined = jwt != null;
       }
     })
   }

@@ -52,10 +52,10 @@ public class EventController {
         token = token.substring(7);
         user = userService.GetByEmail(jwtUtil.extractUsername(token));
         if(user == null){
-            return ResponseEntity.badRequest().body("Something went wrong");
+            return ResponseEntity.status(400).body("Something went wrong");
         }
         if(self){
-            events = eventService.GetAllEvents(types, deleted).stream().filter(event -> Objects.equals(event.getCreator().getId(), user.getId())).toList();
+            events = eventService.GetAllEvents(types, deleted).stream().filter(event -> Objects.equals(event.getCreator().getId(), user.getId()) || participantsService.GetAll(event.getId()).stream().anyMatch(part -> Objects.equals(part.getUser().getId(), user.getId()))).toList();
         }
         else {
             events = eventService.GetAllEvents(types, deleted);

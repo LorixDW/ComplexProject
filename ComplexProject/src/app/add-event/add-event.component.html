@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Добавить событие</h1>
+<div mat-dialog-content class="dialog_1">
+  <form [formGroup]="addForm" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>Заголовок</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Резюме</mat-label>
+      <input matInput formControlName="summary">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Описание</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Место проведения</mat-label>
+      <input matInput formControlName="place">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Дата начала</mat-label>
+      <input matInput formControlName="start" [ngxMatDatetimePicker]="start">
+      <mat-datepicker-toggle matSuffix [for]="$any(start)"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #start [showSeconds]="false">
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Дата конца</mat-label>
+      <input matInput formControlName="end" [ngxMatDatetimePicker]="end">
+      <mat-datepicker-toggle matSuffix [for]="$any(end)"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #end [showSeconds]="false">
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Приватность</mat-label>
+      <mat-select formControlName="privacy">
+        <mat-option [value]="privaces.open">Открытое</mat-option>
+        <mat-option [value]="privaces.half">Полуоткрытое</mat-option>
+        <mat-option [value]="privaces.close">Закрытое</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button type="submit" [disabled]="!addForm.valid">Создать</button>
+      <button mat-raised-button mat-dialog-close>Отмена</button>
+    </div>
+  </form>
+</div>

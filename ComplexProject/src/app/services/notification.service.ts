@@ -10,17 +10,17 @@ export class NotificationService{
   public token: String = ""
   constructor(private http: HttpClient) {
   }
-  public GetAll(self: boolean, deleted: boolean | null, email: String | null, eventId: number | null): Observable<NotificationResponse[]>{
+  public GetAll(self: boolean, deleted: boolean | null, email: string | null, eventId: number | null): Observable<NotificationResponse[]>{
     let params: HttpParams = new HttpParams();
-    params.set("self", self)
+    params = params.set("self", self)
     if(deleted != null){
-      params.set("deleted", deleted)
+      params = params.set("deleted", deleted)
     }
     if(email != null){
-      params.set("email", email)
+      params = params.set("email", email)
     }
     if(eventId != null){
-      params.set("eventId", eventId)
+      params = params.set("eventId", eventId)
     }
     return this.http.get<NotificationResponse[]>("/api/notification", {headers:{
         "Authorization": `Bearer ${this.token}`

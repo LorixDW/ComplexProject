@@ -33,7 +33,8 @@ public class EventService {
             events = eventRepository.findAll();
         }
         else {
-            events = eventRepository.findAll().stream().filter(event -> privacies.contains(event.getPrivacy())).collect(Collectors.toList());
+            events = eventRepository.findAll().stream().filter(event -> privacies.contains(event.getPrivacy()))
+                    .collect(Collectors.toList());
         }
         return events.stream().filter(event -> event.getDeleted() == deleted).toList();
     }

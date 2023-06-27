@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Добавить уведомление</h1>
+<div mat-dialog-content>
+  <form [formGroup]="notifForm"  (ngSubmit)="submit()" class="dialog_1">
+    <mat-form-field>
+      <mat-label>Текст уведомления</mat-label>
+      <input matInput formControlName="text">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>За сколько дней до наступления события отправить</mat-label>
+      <input type="number" min="0" matInput formControlName="days">
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button [disabled]="!notifForm.valid">Создать</button>
+      <button mat-raised-button mat-dialog-close>Отмена</button>
+    </div>
+  </form>
+</div>

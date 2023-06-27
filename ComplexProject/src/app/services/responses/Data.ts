@@ -8,4 +8,7 @@ export class Data{
     this.month = month;
     this.day = day;
   }
+  public toDate(): Date{
+    return new Date(this.year, this.month - 1, this.day)
+  }
 }

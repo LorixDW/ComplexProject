@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Принять приглашение/заявку</h1>
+<div mat-dialog-content>
+  <form [formGroup]="acceptForm" class="dialog_1" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>Роль, как участника события</mat-label>
+      <input matInput formControlName="type">
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button type="submit" [disabled]="!acceptForm.valid">Создать</button>
+      <button mat-raised-button mat-dialog-close>Отмена</button>
+    </div>
+  </form>
+</div>

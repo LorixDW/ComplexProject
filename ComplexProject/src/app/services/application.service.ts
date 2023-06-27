@@ -12,27 +12,27 @@ export class ApplicationService{
   public token: String = ""
   constructor(private http: HttpClient) {
   }
-  public GetAll(self: boolean, type: ApplicationType, accepted: boolean | null, deleted: boolean | null, eventId: number | null, email: String | null):Observable<ApplicationResponse[]>{
+  public GetAll(self: boolean, type: ApplicationType, accepted: boolean | null, deleted: boolean | null, eventId: number | null, email: string | null):Observable<ApplicationResponse[]>{
     let params: HttpParams = new HttpParams();
-    params.set("self", self)
-    params.set("type", ApplicationType)
+    params = params.set("self", self)
+    params = params.set("type", type)
     if(accepted != null) {
-      params.set("accepted", accepted)
+      params = params.set("accepted", accepted)
     }
     if(deleted != null) {
-      params.set("deleted", deleted)
+      params = params.set("deleted", deleted)
     }
     if(eventId != null) {
-      params.set("eventId", eventId)
+      params = params.set("eventId", eventId)
     }
     if(email != null) {
-      params.set("email", email)
+      params = params.set("email", email)
     }
     return this.http.get<ApplicationResponse[]>("/api/application/all", {headers:{
         "Authorization": `Bearer ${this.token}`
       }, params: params})
   }
-  public Add(email: String, eventId: String, message: String, type: ApplicationType): Observable<{ text: String }>{
+  public Add(email: String, eventId: number, message: String, type: ApplicationType): Observable<{ text: String }>{
     return this.http.post<{ text: String }>("/api/application", {
       email: email,
       eventId: eventId,
@@ -42,9 +42,9 @@ export class ApplicationService{
         "Authorization": `Bearer ${this.token}`
       }})
   }
-  public Accept(id: number, type: String): Observable<{ text: String }>{
+  public Accept(id: number, type: string): Observable<{ text: String }>{
     let params: HttpParams = new HttpParams()
-    params.set("participantType", type)
+    params = params.set("participantType", type)
     return this.http.put<{ text: String }>(`/api/application/${id}`, {}, {headers:{
         "Authorization": `Bearer ${this.token}`
       }, params: params})

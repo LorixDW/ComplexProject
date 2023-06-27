@@ -1,0 +1,55 @@
+<h1>{{event.title}}</h1>
+<mat-tab-group>
+  <mat-tab label="Информация">
+    <mat-card>
+      <mat-card-content>
+        <p>{{event.summary}}</p>
+        <p>{{event.description}}</p>
+        <p>Место проведения: {{event.place}}</p>
+        <p>Даты проведения: {{event.start.date}} - {{event.end.date}}</p>
+        <p>Тип события: {{privacy}}</p>
+        <p *ngIf="!event.isSelf">Создатель: {{event.creator.lName}} {{event.creator.fName}} {{event.creator.patronymic}}</p>
+        <p *ngIf="event.isSelf">Создатель: Вы</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngIf="event.isSelf || user.role == 'admin'" mat-raised-button color="primary" (click)="editEvent()">Изменить</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Участники">
+    <mat-card>
+      <mat-card-content>
+        <p *ngFor="let item of participants">-{{item.lName}} {{item.fName}} {{item.patronymic}} ({{item.type}})</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <div *ngIf="event.privacy == 'OPEN'">
+          <p style="margin-left: 10px" *ngIf="event.isSelf">Ваше событие открытое - подождите пока другие пользователи вступят в него</p>
+          <button mat-raised-button *ngIf="!event.isSelf && !isParticipant" (click)="addParticipant()">Вступить</button>
+          <p style="margin-left: 10px" *ngIf="!event.isSelf && isParticipant">Вы уже участник события</p>
+        </div>
+        <div *ngIf="event.privacy == 'HALF_OPEN'">
+          <button mat-raised-button *ngIf="event.isSelf" (click)="addParticipant()">Пригласить</button>
+          <button mat-raised-button *ngIf="!event.isSelf && !isApplicated && !isParticipant" (click)="addParticipant()">Подать заявку</button>
+          <p style="margin-left: 10px" *ngIf="!event.isSelf && isParticipant">Вы уже участник события</p>
+          <p style="margin-left: 10px" *ngIf="!event.isSelf && !isParticipant && isApplicated">Заявка уже подана (или получено приглашение)</p>
+        </div>
+        <div *ngIf="event.privacy == 'PRIVATE'">
+          <p style="margin-left: 10px">Вы не можете добавить участников в закрытое событие</p>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+  <mat-tab *ngIf="isParticipant" label="Уведомления">
+    <p *ngIf="notifications.length == 0">У вас пока нет уведомлений</p>
+    <button mat-raised-button (click)="addNotification()">Добавить</button>
+    <mat-card style="margin:2em;" *ngFor="let item of notifications">
+      <mat-card-content>
+        <p>{{item.description}}</p>
+        <p>Дата: {{item.sent.day}}.{{item.sent.month}}.{{item.sent.year}}</p>
+        <mat-card-actions>
+          <button mat-raised-button (click)="editNotification(item.id, item.description)">Редактировать</button>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>

@@ -5,14 +5,14 @@
     <button class="unauthorized" mat-raised-button (click)="regClick()">Регистрация</button>
   </div>
   <div *ngIf="isLogined">
-    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">{{lName}} {{fName}}<mat-icon>menu</mat-icon></button>
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Меню<mat-icon>menu</mat-icon></button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="accountClick()">
         <span>Личный кабинет</span>
         <mat-icon>account_circle</mat-icon>
       </button>
       <button mat-menu-item (click)="selfEventsClick()">
-        <span>Ваши события</span>
+        <span>Поиск событий</span>
         <mat-icon>list</mat-icon>
       </button>
       <button mat-menu-item (click)="exitClick()">

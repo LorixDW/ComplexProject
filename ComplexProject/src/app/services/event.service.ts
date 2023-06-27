@@ -14,13 +14,14 @@ export class EventService{
   public token: String = ""
   public GetAll(self: boolean, deleted: boolean | null, privacies: Privacy[] | null):Observable<EventResponse[]>{
     let params: HttpParams = new HttpParams();
-    params.set("self", self)
+    params = params.append("self", self)
     if(deleted != null){
-      params.set("deleted", deleted);
+      params = params.append("deleted", deleted);
     }
     if(privacies != null){
-      params.set("types", privacies.join(", "))
+      params = params.append("types", privacies.join(", "))
     }
+    console.log(params.get("self"))
     return this.http.get<EventResponse[]>("/api/event/all", {headers:{
         "Authorization": `Bearer ${this.token}`
       }, params: params})

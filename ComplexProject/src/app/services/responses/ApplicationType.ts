@@ -1,3 +1,4 @@
 export enum ApplicationType{
-  APPLICATION, INVITE
+  APPLICATION= "APPLICATION",
+  INVITE = "INVITE"
 }

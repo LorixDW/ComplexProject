@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Изменить событие</h1>
+<div mat-dialog-content class="dialog_1">
+  <form [formGroup]="editForm" (ngSubmit)="submit()">
+    <mat-form-field>
+      <mat-label>Название</mat-label>
+      <input matInput formControlName="title" [value]="testEvent.title">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Резюме</mat-label>
+      <input matInput formControlName="summary" [value]="testEvent.summary">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Описание</mat-label>
+      <input matInput formControlName="description" [value]="testEvent.description">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Место проведения</mat-label>
+      <input matInput formControlName="place">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Дата начала</mat-label>
+      <input matInput formControlName="start" [ngxMatDatetimePicker]="start">
+      <mat-datepicker-toggle matSuffix [for]="$any(start)"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #start [showSeconds]="false">
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Дата конца</mat-label>
+      <input matInput formControlName="end" [ngxMatDatetimePicker]="end">
+      <mat-datepicker-toggle matSuffix [for]="$any(end)"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #end [showSeconds]="false">
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-raised-button [disabled]="!editForm.valid">Обновить</button>
+      <button mat-raised-button mat-dialog-close>Отмена</button>
+    </div>
+  </form>
+</div>
+
