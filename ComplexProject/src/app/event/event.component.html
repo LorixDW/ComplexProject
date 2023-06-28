@@ -19,7 +19,7 @@
   <mat-tab label="Участники">
     <mat-card>
       <mat-card-content>
-        <p *ngFor="let item of participants">-{{item.lName}} {{item.fName}} {{item.patronymic}} ({{item.type}})</p>
+        <p *ngFor="let item of participants">-{{item.lName}} {{item.fName}} {{item.patronymic}} ({{item.type}} <a *ngIf="isParticipant" (click)="participantEdit(item)"><mat-icon>create</mat-icon></a>)</p>
       </mat-card-content>
       <mat-card-actions>
         <div *ngIf="event.privacy == 'OPEN'">
@@ -47,7 +47,7 @@
         <p>{{item.description}}</p>
         <p>Дата: {{item.sent.day}}.{{item.sent.month}}.{{item.sent.year}}</p>
         <mat-card-actions>
-          <button mat-raised-button (click)="editNotification(item.id, item.description)">Редактировать</button>
+          <button mat-raised-button (click)="editNotification(item)">Редактировать</button>
         </mat-card-actions>
       </mat-card-content>
     </mat-card>

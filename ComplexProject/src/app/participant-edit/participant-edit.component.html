@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Изменение роли участника</h1>
+<form [formGroup]="editForm" class="dialog_1" mat-dialog-content (ngSubmit)="submit()">
+  <mat-form-field>
+    <mat-label>Роль участника</mat-label>
+    <input matInput formControlName="type">
+  </mat-form-field>
+  <div mat-dialog-actions>
+    <button mat-raised-button [disabled]="!editForm.valid" type="submit">Сохранить</button>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+  </div>
+</form>

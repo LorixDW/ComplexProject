@@ -39,7 +39,7 @@
             <mat-panel-title>Удалённые/неудалённые</mat-panel-title>
           </mat-expansion-panel-header>
           <mat-button-toggle-group>
-            <mat-button-toggle (click)="deletedTogle(null)">Все события</mat-button-toggle>
+<!--            <mat-button-toggle (click)="deletedTogle(null)">Все события</mat-button-toggle>-->
             <mat-button-toggle (click)="deletedTogle(false)">Только неудалённые</mat-button-toggle>
             <mat-button-toggle (click)="deletedTogle(true)">Только удалённые</mat-button-toggle>
           </mat-button-toggle-group>
@@ -61,7 +61,9 @@
           <p>{{item.start.date}} - {{item.end.date}}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button (click)="openEvent(item.id)">Открыть</button>
+          <button mat-raised-button *ngIf="!deleted" (click)="openEvent(item.id)">Открыть</button>
+          <button mat-raised-button *ngIf="!deleted" (click)="deleteEvent(item.id)">Удалить</button>
+          <button mat-raised-button *ngIf="deleted" (click)="restoreEvent(item.id)">Восстановить</button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -74,6 +76,15 @@
       <mat-button-toggle (click)="notificationsReload('tomorrow')">На завтра</mat-button-toggle>
       <mat-button-toggle (click)="notificationsReload('actual')">Актуальные</mat-button-toggle>
     </mat-button-toggle-group>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        Удалённые/неудалённые
+      </mat-expansion-panel-header>
+      <mat-button-toggle-group>
+        <mat-button-toggle (click)="notifyDeletedToggle(false)">Неудалённые</mat-button-toggle>
+        <mat-button-toggle (click)="notifyDeletedToggle(true)">Удалённые</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-expansion-panel>
     <mat-card *ngFor="let item of notifications" style="margin:2em;">
       <mat-card-header>
         <mat-card-title>{{item.title}}</mat-card-title>
@@ -84,8 +95,10 @@
         <p>Дата отправки: {{item.sent.day}}.{{item.sent.month}}.{{item.sent.year}}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button (click)="editNotification(item.id, item.description)">Изменить</button>
-        <button mat-raised-button (click)="openEvent(item.eventId)">Перейти</button>
+        <button mat-raised-button *ngIf="!NotifyDeleted" (click)="editNotification(item)">Изменить</button>
+        <button mat-raised-button *ngIf="!NotifyDeleted" (click)="openEvent(item.eventId)">Перейти</button>
+        <button mat-raised-button *ngIf="!NotifyDeleted" (click)="deleteNotification(item.id)">Удалить</button>
+        <button mat-raised-button *ngIf="NotifyDeleted" (click)="restoreNotification(item.id)">Восстановить</button>
       </mat-card-actions>
     </mat-card>
   </mat-tab>
@@ -95,8 +108,17 @@
       <mat-button-toggle color="primary" (click)="applicationToggleF(true)">Приглашения</mat-button-toggle>
       <mat-button-toggle color="primary" (click)="applicationToggleF(false)">Заявки</mat-button-toggle>
     </mat-button-toggle-group>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        Удалённые/неудалённые
+      </mat-expansion-panel-header>
+      <mat-button-toggle-group>
+        <mat-button-toggle (click)="applicationDeletedToggle(false)">Неудалённые</mat-button-toggle>
+        <mat-button-toggle (click)="applicationDeletedToggle(true)">Удалённые</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-expansion-panel>
     <div *ngIf="applicationToggle">
-      <p style="margin:2em;" *ngIf="invitations.length == 0">Похоже у вас пока нет приглошений :(</p>
+      <p style="margin:2em;" *ngIf="invitations.length == 0" >Похоже тут пока нет приглошений :(</p>
       <div *ngIf="invitations.length != 0">
         <mat-card *ngFor="let item of invitations">
           <mat-card-header>
@@ -107,13 +129,15 @@
             <p>Сообщение: {{item.message}}</p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button (click)="acceptApplication(item.id)">Принять</button>
+            <button mat-raised-button *ngIf="!ApplicationDeleted" (click)="acceptApplication(item.id)">Принять</button>
+            <button mat-raised-button *ngIf="!ApplicationDeleted" (click)="deleteApplication(item.id)">Удалить</button>
+            <button mat-raised-button *ngIf="ApplicationDeleted" (click)="restoreApplication(item.id)">Восстановить</button>
           </mat-card-actions>
         </mat-card>
       </div>
     </div>
     <div *ngIf="!applicationToggle">
-      <p style="margin:2em;" *ngIf="applications.length == 0">Похоже вам пока не поступали заявки на вступление</p>
+      <p style="margin:2em;" *ngIf="applications.length == 0">Похоже сюда не поступали заявки на вступление</p>
       <div *ngIf="applications.length != 0">
         <mat-card *ngFor="let item of applications" style="margin:2em 0em;">
           <mat-card-header>
@@ -124,7 +148,9 @@
             <p>Сообщение: {{item.message}}</p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button (click)="acceptApplication(item.id)">Принять</button>
+            <button mat-raised-button *ngIf="!ApplicationDeleted" (click)="acceptApplication(item.id)">Принять</button>
+            <button mat-raised-button *ngIf="!ApplicationDeleted" (click)="deleteApplication(item.id)">Удалить</button>
+            <button mat-raised-button *ngIf="ApplicationDeleted" (click)="restoreApplication(item.id)">Восстановить</button>
           </mat-card-actions>
         </mat-card>
       </div>

@@ -7,10 +7,10 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>За сколько дней до наступления события отправить</mat-label>
-      <input type="number" min="0" matInput formControlName="days">
+      <input matInput formControlName="days">
     </mat-form-field>
     <div mat-dialog-actions>
-      <button mat-raised-button [disabled]="!notifForm.valid">Создать</button>
+      <button mat-raised-button [disabled]="!notifForm.valid">Сохранить</button>
       <button mat-raised-button mat-dialog-close>Отмена</button>
     </div>
   </form>

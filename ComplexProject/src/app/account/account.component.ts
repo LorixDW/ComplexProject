@@ -34,7 +34,9 @@ export class AccountComponent {
   public privaces: Privacy[] = []
   public search: FormGroup = {} as FormGroup;
   public searchPath: string = "";
-  public deleted: boolean | null = null
+  public deleted: boolean = false
+  public NotifyDeleted: boolean = false
+  public ApplicationDeleted: boolean = false
   public applicationToggle: boolean = false;
   public EditClick():void{
     this.dialog.open(EditUserDialogComponent, {
@@ -104,9 +106,17 @@ export class AccountComponent {
     this.searchPath = this.search.value["searchField"]
     this.EventsReload()
   }
-  public deletedTogle(val: boolean | null){
+  public deletedTogle(val: boolean){
     this.deleted = val
     this.EventsReload()
+  }
+  public notifyDeletedToggle(val: boolean){
+    this.NotifyDeleted = val
+    this.notificationsReload(null)
+  }
+  public applicationDeletedToggle(val: boolean){
+    this.ApplicationDeleted = val
+    this.applicationsReload()
   }
   public addEvent(){
     this.dialog.open(AddEventComponent).afterClosed().subscribe(value => {
@@ -114,15 +124,15 @@ export class AccountComponent {
     })
   }
   public applicationsReload(){
-    this.applicationService.GetAll(true, ApplicationType.APPLICATION, null, null, null, null).subscribe(value => {
+    this.applicationService.GetAll(true, ApplicationType.APPLICATION, null, this.ApplicationDeleted, null, null).subscribe(value => {
       this.applications = value
     })
-    this.applicationService.GetAll(true, ApplicationType.INVITE, null, null, null, null).subscribe(value => {
+    this.applicationService.GetAll(true, ApplicationType.INVITE, null, this.ApplicationDeleted, null, null).subscribe(value => {
       this.invitations = value
     })
   }
   public notificationsReload(mode: string | null){
-    this.notificationService.GetAll(true, null, null, null).subscribe(value => {
+    this.notificationService.GetAll(true, this.NotifyDeleted, null, null).subscribe(value => {
       this.notifications = value
       if(mode == 'today'){
         let date: Date = new Date()
@@ -139,9 +149,9 @@ export class AccountComponent {
       }
     })
   }
-  editNotification(id: number,  text: String){
+  editNotification(notif: NotificationResponse){
     this.dialog.open(EditNotificationComponent, {
-      data: {id: id, text: text}
+      data: {notification: notif}
     }).afterClosed().subscribe(value => {this.notificationsReload(null)})
   }
   applicationToggleF(action: boolean){
@@ -152,6 +162,48 @@ export class AccountComponent {
     this.dialog.open(AcceptDialogComponent, {
       data: {id: id}
     }).afterClosed().subscribe(value => {this.applicationsReload()})
+  }
+  deleteEvent(id: number){
+    this.eventService.Delete(id).subscribe(value => {this.EventsReload()}, error => {
+      this.dialog.open(AlertDialogComponent, {
+        data: {title: "Ошибка", content: "Удаление не удалось"}
+      })
+    })
+  }
+  restoreEvent(id: number){
+    this.eventService.Restore(id).subscribe(value => {this.EventsReload()}, error => {
+      this.dialog.open(AlertDialogComponent, {
+        data: {title: "Ошибка", content: "Восстановление не удалось"}
+      })
+    })
+  }
+  deleteNotification(id: number){
+    this.notificationService.Delete(id).subscribe(value => {this.notificationsReload(null)},error => {
+      this.dialog.open(AlertDialogComponent, {
+        data: {title: "Ошибка", content: "Удаление не удалось"}
+      })
+    })
+  }
+  restoreNotification(id: number){
+    this.notificationService.Restore(id).subscribe(value => {this.notificationsReload(null)}, error => {
+      this.dialog.open(AlertDialogComponent, {
+        data: {title: "Ошибка", content: "Восстановление не удалось"}
+      })
+    })
+  }
+  deleteApplication(id: number){
+    this.applicationService.Delete(id).subscribe(value => {this.applicationsReload()}, error => {
+      this.dialog.open(AlertDialogComponent, {
+        data: {title: "Ошибка", content: "Удаление не удалось"}
+      })
+    })
+  }
+  restoreApplication(id: number){
+    this.applicationService.Restore(id).subscribe(value => {this.applicationsReload()},error => {
+      this.dialog.open(AlertDialogComponent, {
+        data: {title: "Ошибка", content: "Восстановление не удалось"}
+      })
+    })
   }
   constructor(public router: Router, private userServies: UserService, public dialog: MatDialog, private eventService: EventService, private notificationService: NotificationService, private applicationService: ApplicationService) {
     let jwt: string | null = localStorage.getItem('jwt')

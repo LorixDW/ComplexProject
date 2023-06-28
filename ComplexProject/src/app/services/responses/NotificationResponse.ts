@@ -22,4 +22,5 @@ export class NotificationResponse{
     this.end = end;
     this.user = user;
   }
+
 }

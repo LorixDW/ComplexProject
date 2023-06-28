@@ -18,6 +18,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EditNotificationComponent} from "../edit-notification/edit-notification.component";
 import {AddParticipantComponent} from "../add-participant/add-participant.component";
 import {ApplicationType} from "../services/responses/ApplicationType";
+import {ParticipantEditComponent} from "../participant-edit/participant-edit.component";
 
 @Component({
   selector: 'app-event',
@@ -95,9 +96,9 @@ export class EventComponent {
       data: {eventId: this.id}
     }).afterClosed().subscribe(value => {this.NotifUpdate()})
   }
-  editNotification(id: number,  text: String){
+  editNotification(notif: NotificationResponse){
     this.dialog.open(EditNotificationComponent, {
-      data: {id: id, text: text}
+      data: {notification: notif}
     }).afterClosed().subscribe(value => {this.NotifUpdate()})
   }
   addParticipant(){
@@ -118,5 +119,10 @@ export class EventComponent {
     this.applicationService.GetAll(false, ApplicationType.APPLICATION, null, null, null, this.event.creator.email.toString()).subscribe(value => {
       this.isApplicated = value.filter(value1 => value1.user.email == this.user.email && value1.eventId == this.event.id).length != 0
     })
+  }
+  participantEdit(part: ParticipantResponse){
+    this.dialog.open(ParticipantEditComponent, {
+      data: {participant: part}
+    }).afterClosed().subscribe(value => {this.participantUpdate()})
   }
 }

@@ -47,6 +47,7 @@ import { AddNotificationComponent } from './add-notification/add-notification.co
 import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 import { AddParticipantComponent } from './add-participant/add-participant.component';
 import { AcceptDialogComponent } from './accept-dialog/accept-dialog.component';
+import { ParticipantEditComponent } from './participant-edit/participant-edit.component';
 
 const appRouts: Routes = [
   {path: "", component: HomeComponent},
@@ -76,7 +77,8 @@ const appRouts: Routes = [
     AddNotificationComponent,
     EditNotificationComponent,
     AddParticipantComponent,
-    AcceptDialogComponent
+    AcceptDialogComponent,
+    ParticipantEditComponent
   ],
   imports: [
     NgFor,
